@@ -7,97 +7,97 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B6823091737D711008E9BFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6823081737D711008E9BFC /* Cocoa.framework */; };
-		5B6823131737D711008E9BFC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B6823111737D711008E9BFC /* InfoPlist.strings */; };
-		5B6823151737D711008E9BFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6823141737D711008E9BFC /* main.m */; };
-		5B6823191737D711008E9BFC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5B6823171737D711008E9BFC /* Credits.rtf */; };
-		5B68231C1737D711008E9BFC /* BPOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68231B1737D711008E9BFC /* BPOAppDelegate.m */; };
-		5B68231F1737D711008E9BFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B68231D1737D711008E9BFC /* MainMenu.xib */; };
+		5B68233D1737D85C008E9BFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B68233C1737D85C008E9BFC /* Cocoa.framework */; };
+		5B6823471737D85C008E9BFC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B6823451737D85C008E9BFC /* InfoPlist.strings */; };
+		5B6823491737D85C008E9BFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6823481737D85C008E9BFC /* main.m */; };
+		5B68234D1737D85C008E9BFC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5B68234B1737D85C008E9BFC /* Credits.rtf */; };
+		5B6823501737D85C008E9BFC /* BPOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */; };
+		5B6823531737D85C008E9BFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6823511737D85C008E9BFC /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5B6823051737D711008E9BFC /* BPODial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BPODial.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B6823081737D711008E9BFC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		5B68230B1737D711008E9BFC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		5B68230C1737D711008E9BFC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		5B68230D1737D711008E9BFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		5B6823101737D711008E9BFC /* BPODial-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BPODial-Info.plist"; sourceTree = "<group>"; };
-		5B6823121737D711008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5B6823141737D711008E9BFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5B6823161737D711008E9BFC /* BPODial-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BPODial-Prefix.pch"; sourceTree = "<group>"; };
-		5B6823181737D711008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		5B68231A1737D711008E9BFC /* BPOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BPOAppDelegate.h; sourceTree = "<group>"; };
-		5B68231B1737D711008E9BFC /* BPOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPOAppDelegate.m; sourceTree = "<group>"; };
-		5B68231E1737D711008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		5B6823391737D85C008E9BFC /* BPODial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BPODial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B68233C1737D85C008E9BFC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5B68233F1737D85C008E9BFC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		5B6823401737D85C008E9BFC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5B6823411737D85C008E9BFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5B6823441737D85C008E9BFC /* BPODial-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BPODial-Info.plist"; sourceTree = "<group>"; };
+		5B6823461737D85C008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B6823481737D85C008E9BFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5B68234A1737D85C008E9BFC /* BPODial-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BPODial-Prefix.pch"; sourceTree = "<group>"; };
+		5B68234C1737D85C008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		5B68234E1737D85C008E9BFC /* BPOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BPOAppDelegate.h; sourceTree = "<group>"; };
+		5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPOAppDelegate.m; sourceTree = "<group>"; };
+		5B6823521737D85C008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5B6823021737D711008E9BFC /* Frameworks */ = {
+		5B6823361737D85C008E9BFC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B6823091737D711008E9BFC /* Cocoa.framework in Frameworks */,
+				5B68233D1737D85C008E9BFC /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5B6822FC1737D711008E9BFC = {
+		5B6823301737D85C008E9BFC = {
 			isa = PBXGroup;
 			children = (
-				5B68230E1737D711008E9BFC /* BPODial */,
-				5B6823071737D711008E9BFC /* Frameworks */,
-				5B6823061737D711008E9BFC /* Products */,
+				5B6823421737D85C008E9BFC /* BPODial */,
+				5B68233B1737D85C008E9BFC /* Frameworks */,
+				5B68233A1737D85C008E9BFC /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		5B6823061737D711008E9BFC /* Products */ = {
+		5B68233A1737D85C008E9BFC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B6823051737D711008E9BFC /* BPODial.app */,
+				5B6823391737D85C008E9BFC /* BPODial.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5B6823071737D711008E9BFC /* Frameworks */ = {
+		5B68233B1737D85C008E9BFC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5B6823081737D711008E9BFC /* Cocoa.framework */,
-				5B68230A1737D711008E9BFC /* Other Frameworks */,
+				5B68233C1737D85C008E9BFC /* Cocoa.framework */,
+				5B68233E1737D85C008E9BFC /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5B68230A1737D711008E9BFC /* Other Frameworks */ = {
+		5B68233E1737D85C008E9BFC /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5B68230B1737D711008E9BFC /* AppKit.framework */,
-				5B68230C1737D711008E9BFC /* CoreData.framework */,
-				5B68230D1737D711008E9BFC /* Foundation.framework */,
+				5B68233F1737D85C008E9BFC /* AppKit.framework */,
+				5B6823401737D85C008E9BFC /* CoreData.framework */,
+				5B6823411737D85C008E9BFC /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		5B68230E1737D711008E9BFC /* BPODial */ = {
+		5B6823421737D85C008E9BFC /* BPODial */ = {
 			isa = PBXGroup;
 			children = (
-				5B68231A1737D711008E9BFC /* BPOAppDelegate.h */,
-				5B68231B1737D711008E9BFC /* BPOAppDelegate.m */,
-				5B68231D1737D711008E9BFC /* MainMenu.xib */,
-				5B68230F1737D711008E9BFC /* Supporting Files */,
+				5B68234E1737D85C008E9BFC /* BPOAppDelegate.h */,
+				5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */,
+				5B6823511737D85C008E9BFC /* MainMenu.xib */,
+				5B6823431737D85C008E9BFC /* Supporting Files */,
 			);
 			path = BPODial;
 			sourceTree = "<group>";
 		};
-		5B68230F1737D711008E9BFC /* Supporting Files */ = {
+		5B6823431737D85C008E9BFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5B6823101737D711008E9BFC /* BPODial-Info.plist */,
-				5B6823111737D711008E9BFC /* InfoPlist.strings */,
-				5B6823141737D711008E9BFC /* main.m */,
-				5B6823161737D711008E9BFC /* BPODial-Prefix.pch */,
-				5B6823171737D711008E9BFC /* Credits.rtf */,
+				5B6823441737D85C008E9BFC /* BPODial-Info.plist */,
+				5B6823451737D85C008E9BFC /* InfoPlist.strings */,
+				5B6823481737D85C008E9BFC /* main.m */,
+				5B68234A1737D85C008E9BFC /* BPODial-Prefix.pch */,
+				5B68234B1737D85C008E9BFC /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -105,13 +105,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5B6823041737D711008E9BFC /* BPODial */ = {
+		5B6823381737D85C008E9BFC /* BPODial */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B6823221737D712008E9BFC /* Build configuration list for PBXNativeTarget "BPODial" */;
+			buildConfigurationList = 5B6823561737D85C008E9BFC /* Build configuration list for PBXNativeTarget "BPODial" */;
 			buildPhases = (
-				5B6823011737D711008E9BFC /* Sources */,
-				5B6823021737D711008E9BFC /* Frameworks */,
-				5B6823031737D711008E9BFC /* Resources */,
+				5B6823351737D85C008E9BFC /* Sources */,
+				5B6823361737D85C008E9BFC /* Frameworks */,
+				5B6823371737D85C008E9BFC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -119,82 +119,82 @@
 			);
 			name = BPODial;
 			productName = BPODial;
-			productReference = 5B6823051737D711008E9BFC /* BPODial.app */;
+			productReference = 5B6823391737D85C008E9BFC /* BPODial.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5B6822FD1737D711008E9BFC /* Project object */ = {
+		5B6823311737D85C008E9BFC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BPO;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "BYTEPOETS GmbH";
 			};
-			buildConfigurationList = 5B6823001737D711008E9BFC /* Build configuration list for PBXProject "BPODial" */;
+			buildConfigurationList = 5B6823341737D85C008E9BFC /* Build configuration list for PBXProject "BPODial" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 5B6822FC1737D711008E9BFC;
-			productRefGroup = 5B6823061737D711008E9BFC /* Products */;
+			mainGroup = 5B6823301737D85C008E9BFC;
+			productRefGroup = 5B68233A1737D85C008E9BFC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5B6823041737D711008E9BFC /* BPODial */,
+				5B6823381737D85C008E9BFC /* BPODial */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5B6823031737D711008E9BFC /* Resources */ = {
+		5B6823371737D85C008E9BFC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B6823131737D711008E9BFC /* InfoPlist.strings in Resources */,
-				5B6823191737D711008E9BFC /* Credits.rtf in Resources */,
-				5B68231F1737D711008E9BFC /* MainMenu.xib in Resources */,
+				5B6823471737D85C008E9BFC /* InfoPlist.strings in Resources */,
+				5B68234D1737D85C008E9BFC /* Credits.rtf in Resources */,
+				5B6823531737D85C008E9BFC /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5B6823011737D711008E9BFC /* Sources */ = {
+		5B6823351737D85C008E9BFC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B6823151737D711008E9BFC /* main.m in Sources */,
-				5B68231C1737D711008E9BFC /* BPOAppDelegate.m in Sources */,
+				5B6823491737D85C008E9BFC /* main.m in Sources */,
+				5B6823501737D85C008E9BFC /* BPOAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5B6823111737D711008E9BFC /* InfoPlist.strings */ = {
+		5B6823451737D85C008E9BFC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5B6823121737D711008E9BFC /* en */,
+				5B6823461737D85C008E9BFC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		5B6823171737D711008E9BFC /* Credits.rtf */ = {
+		5B68234B1737D85C008E9BFC /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5B6823181737D711008E9BFC /* en */,
+				5B68234C1737D85C008E9BFC /* en */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
-		5B68231D1737D711008E9BFC /* MainMenu.xib */ = {
+		5B6823511737D85C008E9BFC /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5B68231E1737D711008E9BFC /* en */,
+				5B6823521737D85C008E9BFC /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5B6823201737D712008E9BFC /* Debug */ = {
+		5B6823541737D85C008E9BFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -235,7 +235,7 @@
 			};
 			name = Debug;
 		};
-		5B6823211737D712008E9BFC /* Release */ = {
+		5B6823551737D85C008E9BFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -261,7 +261,7 @@
 			};
 			name = Release;
 		};
-		5B6823231737D712008E9BFC /* Debug */ = {
+		5B6823571737D85C008E9BFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
@@ -273,7 +273,7 @@
 			};
 			name = Debug;
 		};
-		5B6823241737D712008E9BFC /* Release */ = {
+		5B6823581737D85C008E9BFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
@@ -288,24 +288,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B6823001737D711008E9BFC /* Build configuration list for PBXProject "BPODial" */ = {
+		5B6823341737D85C008E9BFC /* Build configuration list for PBXProject "BPODial" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5B6823201737D712008E9BFC /* Debug */,
-				5B6823211737D712008E9BFC /* Release */,
+				5B6823541737D85C008E9BFC /* Debug */,
+				5B6823551737D85C008E9BFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B6823221737D712008E9BFC /* Build configuration list for PBXNativeTarget "BPODial" */ = {
+		5B6823561737D85C008E9BFC /* Build configuration list for PBXNativeTarget "BPODial" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5B6823231737D712008E9BFC /* Debug */,
-				5B6823241737D712008E9BFC /* Release */,
+				5B6823571737D85C008E9BFC /* Debug */,
+				5B6823581737D85C008E9BFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5B6822FD1737D711008E9BFC /* Project object */;
+	rootObject = 5B6823311737D85C008E9BFC /* Project object */;
 }
