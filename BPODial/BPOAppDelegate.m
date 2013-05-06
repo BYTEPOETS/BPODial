@@ -7,6 +7,7 @@
 //
 
 #import "BPOAppDelegate.h"
+#import "BPODial.h"
 
 @implementation BPOAppDelegate
 
@@ -15,4 +16,9 @@
     // Insert code here to initialize your application
 }
 
+
+- (IBAction)valueChanged:(NSSlider *)sender
+{
+    self.label.integerValue = sender.integerValue;
+}
 @end

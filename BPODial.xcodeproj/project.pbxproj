@@ -13,6 +13,9 @@
 		5B68234D1737D85C008E9BFC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5B68234B1737D85C008E9BFC /* Credits.rtf */; };
 		5B6823501737D85C008E9BFC /* BPOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */; };
 		5B6823531737D85C008E9BFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B6823511737D85C008E9BFC /* MainMenu.xib */; };
+		5B68235C1737D8CA008E9BFC /* BPODial.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68235B1737D8CA008E9BFC /* BPODial.m */; };
+		5B68235F1737DA8B008E9BFC /* BPOSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68235E1737DA8B008E9BFC /* BPOSliderCell.m */; };
+		5B68236217380183008E9BFC /* NSAffineTransform+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B68236117380183008E9BFC /* NSAffineTransform+Rotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,12 @@
 		5B68234E1737D85C008E9BFC /* BPOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BPOAppDelegate.h; sourceTree = "<group>"; };
 		5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPOAppDelegate.m; sourceTree = "<group>"; };
 		5B6823521737D85C008E9BFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		5B68235A1737D8CA008E9BFC /* BPODial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPODial.h; sourceTree = "<group>"; };
+		5B68235B1737D8CA008E9BFC /* BPODial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPODial.m; sourceTree = "<group>"; };
+		5B68235D1737DA8B008E9BFC /* BPOSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPOSliderCell.h; sourceTree = "<group>"; };
+		5B68235E1737DA8B008E9BFC /* BPOSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPOSliderCell.m; sourceTree = "<group>"; };
+		5B68236017380183008E9BFC /* NSAffineTransform+Rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAffineTransform+Rotation.h"; sourceTree = "<group>"; };
+		5B68236117380183008E9BFC /* NSAffineTransform+Rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAffineTransform+Rotation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +91,7 @@
 		5B6823421737D85C008E9BFC /* BPODial */ = {
 			isa = PBXGroup;
 			children = (
+				5B6823591737D8BB008E9BFC /* BPODial */,
 				5B68234E1737D85C008E9BFC /* BPOAppDelegate.h */,
 				5B68234F1737D85C008E9BFC /* BPOAppDelegate.m */,
 				5B6823511737D85C008E9BFC /* MainMenu.xib */,
@@ -100,6 +110,19 @@
 				5B68234B1737D85C008E9BFC /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5B6823591737D8BB008E9BFC /* BPODial */ = {
+			isa = PBXGroup;
+			children = (
+				5B68235A1737D8CA008E9BFC /* BPODial.h */,
+				5B68235B1737D8CA008E9BFC /* BPODial.m */,
+				5B68235D1737DA8B008E9BFC /* BPOSliderCell.h */,
+				5B68235E1737DA8B008E9BFC /* BPOSliderCell.m */,
+				5B68236017380183008E9BFC /* NSAffineTransform+Rotation.h */,
+				5B68236117380183008E9BFC /* NSAffineTransform+Rotation.m */,
+			);
+			path = BPODial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +192,9 @@
 			files = (
 				5B6823491737D85C008E9BFC /* main.m in Sources */,
 				5B6823501737D85C008E9BFC /* BPOAppDelegate.m in Sources */,
+				5B68235C1737D8CA008E9BFC /* BPODial.m in Sources */,
+				5B68235F1737DA8B008E9BFC /* BPOSliderCell.m in Sources */,
+				5B68236217380183008E9BFC /* NSAffineTransform+Rotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +330,7 @@
 				5B6823581737D85C008E9BFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
