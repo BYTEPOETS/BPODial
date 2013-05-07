@@ -14,7 +14,6 @@
 #define CELL_SIZE               168.0f
 #define INDICATOR_BASE_WIDTH    20.0f
 #define INDICATOR_HEIGHT        10.0f
-#define TOTAL_DEGREES           116.0f
 #define KNOB_BASE_RADIUS        50.0f
 
 @interface BPOSliderCell ()
@@ -28,6 +27,34 @@
 
 
 @implementation BPOSliderCell
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self _setup];
+    }
+    return self;
+}
+
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        [self _setup];
+    }
+    return self;
+}
+
+
+- (void)_setup
+{
+    self.scaleInDegrees = 116.0f;
+}
+
 
 - (NSSliderType)sliderType
 {
@@ -87,17 +114,22 @@
     // TODO: draw inset background
     [[NSColor darkGrayColor] setFill];
     NSRectFill(aRect);
+
+    [self _drawTickMarksInRect:aRect];
     
     [NSGraphicsContext restoreGraphicsState];
+}
+
+
+- (void)_drawTickMarksInRect:(NSRect)rect
+{
+    
 }
 
 
 - (void)drawKnob:(NSRect)knobRect
 {
     [NSGraphicsContext saveGraphicsState];
-    
-    [[NSColor greenColor] setFill];
-    NSFrameRect(knobRect);
     
     [[NSColor redColor] setFill];
 
@@ -109,27 +141,29 @@
     CGFloat normalizedMax = self.maxValue - self.minValue;
     CGFloat normalizedValue = self.floatValue - self.minValue;
     CGFloat percent = normalizedValue / normalizedMax;
-    CGFloat degrees = TOTAL_DEGREES / 2.0f - TOTAL_DEGREES * percent;
+    CGFloat degrees = self.scaleInDegrees / 2.0f - self.scaleInDegrees * percent;
     
     NSAffineTransform *rotation = [NSAffineTransform transformRotatingAroundPoint:NSMakePoint(NSMidX(circleRect), NSMidY(circleRect)) byDegrees:degrees];
     NSBezierPath *drawPath = [rotation transformBezierPath:circlePath];
     [drawPath fill];
     
     
-    // ---
-    [[NSColor greenColor] setFill];
-    NSRect rect = NSMakeRect(tLastPoint.x - 3, tLastPoint.y-3, 6, 6);
-    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
-    [path fill];
-    
-    [[NSColor blueColor] setFill];
-    rect = NSMakeRect(tLastPointOnCircle.x - 3, tLastPointOnCircle.y-3, 6, 6);
-    path = [NSBezierPath bezierPathWithOvalInRect:rect];
-    [path fill];
-    
-    NSString *valuesStr = [NSString stringWithFormat:@"%0.2f%%\n%0.2f°", tPercentage * 100, RADIANS_TO_DEGREES(tAngle)];
-    [valuesStr drawAtPoint:NSMakePoint(NSMidX(knobRect), NSMidY(knobRect)) withAttributes:nil];
-
+    // --- DEBUG DRAWING ---
+//    [[NSColor greenColor] setFill];
+//    NSFrameRect(knobRect);
+//
+//    [[NSColor greenColor] setFill];
+//    NSRect rect = NSMakeRect(tLastPoint.x - 3, tLastPoint.y-3, 6, 6);
+//    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
+//    [path fill];
+//    
+//    [[NSColor blueColor] setFill];
+//    rect = NSMakeRect(tLastPointOnCircle.x - 3, tLastPointOnCircle.y-3, 6, 6);
+//    path = [NSBezierPath bezierPathWithOvalInRect:rect];
+//    [path fill];
+//    
+//    NSString *valuesStr = [NSString stringWithFormat:@"%0.2f%%\n%0.2f°", tPercentage * 100, RADIANS_TO_DEGREES(tAngle)];
+//    [valuesStr drawAtPoint:NSMakePoint(NSMidX(knobRect), NSMidY(knobRect)) withAttributes:nil];
     // ---
 
     [NSGraphicsContext restoreGraphicsState];
@@ -160,31 +194,15 @@
 
 #pragma mark - Tracking
 
-- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView
-{
-    NSLog(@"------ start tracking");
-    return YES;
-}
-
-
 - (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
 {
     // calculate delta angle between lastPoint and currentPoint
-    CGPoint lastPointOnCircle = [self pointOnCircleForPoint:lastPoint];
     CGPoint currentPointOnCircle = [self pointOnCircleForPoint:currentPoint];
     
-//    CGFloat deltaAngle = -RADIANS_TO_DEGREES(vecAngle(lastPointOnCircle, currentPointOnCircle));
-//    CGFloat deltaPercentage = [self percentageOfAngle:deltaAngle];
-//    CGFloat deltaValue = roundf((self.maxValue - self.minValue) * deltaPercentage);
-
     CGFloat percentage = [self percentageOfPoint:currentPointOnCircle];
     self.integerValue = roundf((self.maxValue - self.minValue) * percentage) + self.minValue;
     
     [self.controlView setNeedsDisplay:YES];
-
-    
-    
-    //NSLog(@"------ continue tracking - (%f / %f) - dAngle: %f   d%%: %f    dV: %f", currentPointOnCircle.x, currentPointOnCircle.y, deltaAngle, deltaPercentage, deltaValue);
     
     // --- DEBUG INFO
     tLastPointOnCircle = currentPointOnCircle;
@@ -193,22 +211,14 @@
     tPercentage = percentage;
     // ---
 
-
     return YES;
 }
-
-
-- (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
-{
-    NSLog(@"------ stop tracking");
-}
-
 
 #pragma mark - Geometry helpers
 
 - (CGFloat)percentageOfAngle:(CGFloat)angle
 {
-    return angle / TOTAL_DEGREES;
+    return angle / self.scaleInDegrees;
 }
 
 
@@ -218,8 +228,8 @@
     
     // valid range: 32° - 148°
 
-    CGFloat minAngle = 90.0f - TOTAL_DEGREES / 2.0f;
-    CGFloat maxAngle = 90.0f + TOTAL_DEGREES / 2.0f;
+    CGFloat minAngle = 90.0f - self.scaleInDegrees / 2.0f;
+    CGFloat maxAngle = 90.0f + self.scaleInDegrees / 2.0f;
     
     CGFloat resultAngle = 0.0f;
     

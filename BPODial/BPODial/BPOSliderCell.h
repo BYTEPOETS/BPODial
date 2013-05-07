@@ -10,4 +10,6 @@
 
 @interface BPOSliderCell : NSSliderCell
 
+@property (nonatomic, assign) CGFloat scaleInDegrees;
+
 @end
