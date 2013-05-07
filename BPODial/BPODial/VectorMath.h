@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
+#define DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.01745329252f) // PI / 180
 
 // returns the length of a vector
 CGFloat vecLength(CGPoint a);

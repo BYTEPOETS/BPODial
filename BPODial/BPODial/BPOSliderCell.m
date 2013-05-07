@@ -15,6 +15,8 @@
 #define INDICATOR_BASE_WIDTH    20.0f
 #define INDICATOR_HEIGHT        10.0f
 #define KNOB_BASE_RADIUS        50.0f
+#define TICK_MARK_DISTANCE      KNOB_BASE_RADIUS + 20.0f
+#define TICK_MARK_RADIUS        3.0f
 
 @interface BPOSliderCell ()
 {
@@ -53,6 +55,7 @@
 - (void)_setup
 {
     self.scaleInDegrees = 116.0f;
+    self.numberOfTickMarks = 9;
 }
 
 
@@ -112,9 +115,9 @@
     [NSGraphicsContext saveGraphicsState];
     
     // TODO: draw inset background
-    [[NSColor darkGrayColor] setFill];
+    [[NSColor lightGrayColor] setFill];
     NSRectFill(aRect);
-
+    
     [self _drawTickMarksInRect:aRect];
     
     [NSGraphicsContext restoreGraphicsState];
@@ -123,6 +126,52 @@
 
 - (void)_drawTickMarksInRect:(NSRect)rect
 {
+    // calculate angle for tickmarks
+    CGFloat maxAngle = 90.0f + self.scaleInDegrees / 2.0f;
+    CGFloat minAngle = 90.0f - self.scaleInDegrees / 2.0f;
+    CGFloat tickMarkAngle = self.scaleInDegrees / (self.numberOfTickMarks - 1);
+    
+    NSRect circleRect = [self circleRectForKnobRect:[self knobRectFlipped:self.controlView.isFlipped]];
+    CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect));
+    CGPoint edgePoint = CGPointMake(TICK_MARK_DISTANCE, 0.0f);
+    
+    for (NSInteger count = 0; count < self.numberOfTickMarks; count++)
+    {
+        CGFloat angle = maxAngle - count * tickMarkAngle;
+        CGPoint tickMarkPoint = vecAdd(vecRotateByAngle(edgePoint, NSZeroPoint, DEGREES_TO_RADIANS(angle)), center);
+        
+        CGFloat percentage = [self percentageOfAngle:(angle - minAngle)];
+        NSLog(@"perc: %f   current: %f", percentage, [self _currentPercentage]);
+        BOOL filled = percentage <= [self _currentPercentage];
+        
+        [self _drawTickMarkAtPoint:tickMarkPoint filled:filled];
+    }
+}
+
+
+- (void)_drawTickMarkAtPoint:(CGPoint)point filled:(BOOL)filled
+{
+    NSRect rect = NSMakeRect(point.x - TICK_MARK_RADIUS, point.y - TICK_MARK_RADIUS, TICK_MARK_RADIUS * 2.0f, TICK_MARK_RADIUS * 2.0f);
+    
+    if (filled)
+    {
+        [[NSColor cyanColor] setFill];
+    }
+    else
+    {
+        [[NSColor darkGrayColor] setFill];
+    }
+    
+    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
+    [path fill];
+}
+
+
+- (CGFloat)_currentPercentage
+{
+    CGFloat normalizedMax = self.maxValue - self.minValue;
+    CGFloat normalizedValue = self.floatValue - self.minValue;
+    return normalizedValue / normalizedMax;
     
 }
 
@@ -132,16 +181,13 @@
     [NSGraphicsContext saveGraphicsState];
     
     [[NSColor redColor] setFill];
-
+    
     NSRect circleRect = [self circleRectForKnobRect:knobRect];
     NSBezierPath *circlePath = [NSBezierPath bezierPathWithOvalInRect:circleRect];
     NSBezierPath *indicatorPath = [self _indicatorPathForRect:circleRect];
     [circlePath appendBezierPath:indicatorPath];
-
-    CGFloat normalizedMax = self.maxValue - self.minValue;
-    CGFloat normalizedValue = self.floatValue - self.minValue;
-    CGFloat percent = normalizedValue / normalizedMax;
-    CGFloat degrees = self.scaleInDegrees / 2.0f - self.scaleInDegrees * percent;
+    
+    CGFloat degrees = self.scaleInDegrees / 2.0f - self.scaleInDegrees * [self _currentPercentage];
     
     NSAffineTransform *rotation = [NSAffineTransform transformRotatingAroundPoint:NSMakePoint(NSMidX(circleRect), NSMidY(circleRect)) byDegrees:degrees];
     NSBezierPath *drawPath = [rotation transformBezierPath:circlePath];
@@ -149,23 +195,23 @@
     
     
     // --- DEBUG DRAWING ---
-//    [[NSColor greenColor] setFill];
-//    NSFrameRect(knobRect);
-//
-//    [[NSColor greenColor] setFill];
-//    NSRect rect = NSMakeRect(tLastPoint.x - 3, tLastPoint.y-3, 6, 6);
-//    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
-//    [path fill];
-//    
-//    [[NSColor blueColor] setFill];
-//    rect = NSMakeRect(tLastPointOnCircle.x - 3, tLastPointOnCircle.y-3, 6, 6);
-//    path = [NSBezierPath bezierPathWithOvalInRect:rect];
-//    [path fill];
-//    
-//    NSString *valuesStr = [NSString stringWithFormat:@"%0.2f%%\n%0.2f°", tPercentage * 100, RADIANS_TO_DEGREES(tAngle)];
-//    [valuesStr drawAtPoint:NSMakePoint(NSMidX(knobRect), NSMidY(knobRect)) withAttributes:nil];
+    //    [[NSColor greenColor] setFill];
+    //    NSFrameRect(knobRect);
+    //
+    //    [[NSColor greenColor] setFill];
+    //    NSRect rect = NSMakeRect(tLastPoint.x - 3, tLastPoint.y-3, 6, 6);
+    //    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
+    //    [path fill];
+    //
+    //    [[NSColor blueColor] setFill];
+    //    rect = NSMakeRect(tLastPointOnCircle.x - 3, tLastPointOnCircle.y-3, 6, 6);
+    //    path = [NSBezierPath bezierPathWithOvalInRect:rect];
+    //    [path fill];
+    //
+    //    NSString *valuesStr = [NSString stringWithFormat:@"%0.2f%%\n%0.2f°", tPercentage * 100, RADIANS_TO_DEGREES(tAngle)];
+    //    [valuesStr drawAtPoint:NSMakePoint(NSMidX(knobRect), NSMidY(knobRect)) withAttributes:nil];
     // ---
-
+    
     [NSGraphicsContext restoreGraphicsState];
 }
 
@@ -210,7 +256,7 @@
     tAngle = [self angleOfPoint:currentPointOnCircle];
     tPercentage = percentage;
     // ---
-
+    
     return YES;
 }
 
@@ -218,7 +264,7 @@
 
 - (CGFloat)percentageOfAngle:(CGFloat)angle
 {
-    return angle / self.scaleInDegrees;
+    return 1.0f - angle / self.scaleInDegrees;
 }
 
 
@@ -227,7 +273,7 @@
     CGFloat angle = RADIANS_TO_DEGREES([self angleOfPoint:point]);
     
     // valid range: 32° - 148°
-
+    
     CGFloat minAngle = 90.0f - self.scaleInDegrees / 2.0f;
     CGFloat maxAngle = 90.0f + self.scaleInDegrees / 2.0f;
     
@@ -260,7 +306,7 @@
     }
     
     resultAngle = resultAngle - minAngle;
-    return 1.0f - [self percentageOfAngle:resultAngle];
+    return [self percentageOfAngle:resultAngle];
 }
 
 
@@ -269,9 +315,7 @@
     // calculate angle between x-Axis and point
     CGPoint edgePoint = CGPointMake(KNOB_BASE_RADIUS, 0.0f);
     CGPoint translatedPoint = vecSub(point, center);
-    CGFloat angle = vecAngle(edgePoint, translatedPoint);
-
-    return angle;
+    return vecAngle(edgePoint, translatedPoint);
 }
 
 
@@ -279,7 +323,6 @@
 {
     NSRect circleRect = [self circleRectForKnobRect:[self knobRectFlipped:self.controlView.isFlipped]];
     CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect));
-    
     return [self angleOfPoint:point withCenter:center];
 }
 
@@ -288,14 +331,12 @@
 {
     NSRect circleRect = [self circleRectForKnobRect:[self knobRectFlipped:self.controlView.isFlipped]];
     CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect));
-
+    
     CGFloat angle = [self angleOfPoint:point withCenter:center];
     CGPoint edgePoint = CGPointMake(KNOB_BASE_RADIUS, 0.0f);
     
     // rotate a point on the x-Axis on the edge of the circle by the calculated angle
-    CGPoint rotatedPoint = vecAdd(vecRotateByAngle(edgePoint, NSZeroPoint, angle), center);
-    
-    return rotatedPoint;
+    return vecAdd(vecRotateByAngle(edgePoint, NSZeroPoint, angle), center);
 }
 
 
