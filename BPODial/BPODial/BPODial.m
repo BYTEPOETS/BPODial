@@ -60,8 +60,6 @@
     cell.maxValue = self.maxValue;
     
     self.cell = cell;
-
 }
-
 
 @end

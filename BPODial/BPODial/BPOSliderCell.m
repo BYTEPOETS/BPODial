@@ -115,12 +115,8 @@
 
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped
 {
-    [NSGraphicsContext saveGraphicsState];
-    
     [self _drawBackground];
     [self _drawTickMarksInRect:aRect];
-    
-    [NSGraphicsContext restoreGraphicsState];
 }
 
 
@@ -417,6 +413,7 @@
     [bezierPath setLineWidth: 1];
     [bezierPath stroke];
 
+    [NSGraphicsContext restoreGraphicsState];
     
     NSBezierPath *strokeBezierPath = [self _strokePath];
     strokeBezierPath = [translation transformBezierPath:strokeBezierPath];

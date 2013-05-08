@@ -19,6 +19,6 @@
 
 - (IBAction)valueChanged:(NSSlider *)sender
 {
-    self.label.integerValue = sender.integerValue;
+    self.label.stringValue = [NSString stringWithFormat:@"Value: %ld", sender.integerValue];
 }
 @end

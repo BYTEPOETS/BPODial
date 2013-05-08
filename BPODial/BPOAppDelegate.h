@@ -13,8 +13,8 @@
 @interface BPOAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property (weak) IBOutlet BPODial *dial;
-@property (weak) IBOutlet NSTextField *label;
+@property (assign) IBOutlet BPODial *dial;
+@property (assign) IBOutlet NSTextField *label;
 
 
 - (IBAction)valueChanged:(NSSlider *)sender;
