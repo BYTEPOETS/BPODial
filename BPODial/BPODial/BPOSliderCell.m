@@ -55,7 +55,7 @@
 - (void)_setup
 {
     self.scaleInDegrees = 116.0f;
-    self.concave = YES;
+    self.concave = NO;
     self.numberOfTickMarks = 9;
 }
 
@@ -82,7 +82,7 @@
 
 - (NSRect)knobRectFlipped:(BOOL)flipped
 {
-    return CGRectMake(27.0f, 17.0f, 114.0f, 114.0f);
+    return CGRectMake((CELL_SIZE - 114.0f) / 2.0, (CELL_SIZE - 114.0f) / 2.0 - 10.0f, 114.0f, 114.0f);
 }
 
 
