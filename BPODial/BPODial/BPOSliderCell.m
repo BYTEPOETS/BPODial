@@ -124,8 +124,6 @@
 - (void)_drawBackground
 {
     NSRect rect = NSMakeRect(0.0f, 0.0f, CELL_SIZE, CELL_SIZE);
-
-    
     //// General Declarations
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     
@@ -216,18 +214,63 @@
 - (void)_drawTickMarkAtPoint:(CGPoint)point filled:(BOOL)filled
 {
     NSRect rect = NSMakeRect(point.x - TICK_MARK_RADIUS, point.y - TICK_MARK_RADIUS, TICK_MARK_RADIUS * 2.0f, TICK_MARK_RADIUS * 2.0f);
-    
+
+    //// Color Declarations
+    NSColor* fillColor = nil;
     if (filled)
     {
-        [[NSColor cyanColor] setFill];
+        fillColor = [NSColor colorWithCalibratedRed: 0.086 green: 0.761 blue: 1 alpha: 1];
     }
     else
     {
-        [[NSColor darkGrayColor] setFill];
+        fillColor = [NSColor colorWithCalibratedWhite: 0.510 alpha: 1];
     }
+
+    NSColor* strokeColor = [NSColor colorWithCalibratedRed: 0 green: 0 blue: 0 alpha: 0.158];
+    NSColor* shadowColor2 = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 1];
     
-    NSBezierPath *path = [NSBezierPath bezierPathWithOvalInRect:rect];
-    [path fill];
+    //// Shadow Declarations
+    NSShadow* shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor: strokeColor];
+    [shadow setShadowOffset: NSMakeSize(1.1, -1.1)];
+    [shadow setShadowBlurRadius: 1];
+    NSShadow* shadow2 = [[NSShadow alloc] init];
+    [shadow2 setShadowColor: shadowColor2];
+    [shadow2 setShadowOffset: NSMakeSize(1.1, -1.1)];
+    [shadow2 setShadowBlurRadius: 1];
+    
+    //// Oval Drawing
+    NSBezierPath* ovalPath = [NSBezierPath bezierPathWithOvalInRect: rect];
+    [NSGraphicsContext saveGraphicsState];
+    [shadow2 set];
+    [fillColor setFill];
+    [ovalPath fill];
+    
+    ////// Oval Inner Shadow
+    NSRect ovalBorderRect = NSInsetRect([ovalPath bounds], -shadow.shadowBlurRadius, -shadow.shadowBlurRadius);
+    ovalBorderRect = NSOffsetRect(ovalBorderRect, -shadow.shadowOffset.width, -shadow.shadowOffset.height);
+    ovalBorderRect = NSInsetRect(NSUnionRect(ovalBorderRect, [ovalPath bounds]), -1, -1);
+    
+    NSBezierPath* ovalNegativePath = [NSBezierPath bezierPathWithRect: ovalBorderRect];
+    [ovalNegativePath appendBezierPath: ovalPath];
+    [ovalNegativePath setWindingRule: NSEvenOddWindingRule];
+    
+    [NSGraphicsContext saveGraphicsState];
+    {
+        NSShadow* shadowWithOffset = [shadow copy];
+        CGFloat xOffset = shadowWithOffset.shadowOffset.width + round(ovalBorderRect.size.width);
+        CGFloat yOffset = shadowWithOffset.shadowOffset.height;
+        shadowWithOffset.shadowOffset = NSMakeSize(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset));
+        [shadowWithOffset set];
+        [[NSColor grayColor] setFill];
+        [ovalPath addClip];
+        NSAffineTransform* transform = [NSAffineTransform transform];
+        [transform translateXBy: -round(ovalBorderRect.size.width) yBy: 0];
+        [[transform transformBezierPath: ovalNegativePath] fill];
+    }
+    [NSGraphicsContext restoreGraphicsState];
+    
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 
