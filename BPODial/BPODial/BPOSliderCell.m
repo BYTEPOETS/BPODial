@@ -141,7 +141,6 @@
         CGPoint tickMarkPoint = vecAdd(vecRotateByAngle(edgePoint, NSZeroPoint, DEGREES_TO_RADIANS(angle)), center);
         
         CGFloat percentage = [self percentageOfAngle:(angle - minAngle)];
-        NSLog(@"perc: %f   current: %f", percentage, [self _currentPercentage]);
         BOOL filled = percentage <= [self _currentPercentage];
         
         [self _drawTickMarkAtPoint:tickMarkPoint filled:filled];
