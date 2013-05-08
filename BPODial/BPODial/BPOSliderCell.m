@@ -12,11 +12,8 @@
 
 
 #define CELL_SIZE               168.0f
-#define INDICATOR_BASE_WIDTH    20.0f
-#define INDICATOR_HEIGHT        10.0f
 #define KNOB_BASE_RADIUS        50.0f
 #define TICK_MARK_DISTANCE      KNOB_BASE_RADIUS + 25.0f
-#define TICK_MARK_RADIUS        3.0f
 
 @interface BPOSliderCell ()
 {
@@ -56,6 +53,7 @@
 {
     self.scaleInDegrees = 116.0f;
     self.concave = NO;
+    self.tickMarkRadius = 3.0f;
     self.numberOfTickMarks = 9;
 }
 
@@ -224,7 +222,7 @@
 
 - (void)_drawTickMarkAtPoint:(CGPoint)point filled:(BOOL)filled
 {
-    NSRect rect = NSMakeRect(point.x - TICK_MARK_RADIUS, point.y - TICK_MARK_RADIUS, TICK_MARK_RADIUS * 2.0f, TICK_MARK_RADIUS * 2.0f);
+    NSRect rect = NSMakeRect(point.x - self.tickMarkRadius, point.y - self.tickMarkRadius, self.tickMarkRadius * 2.0f, self.tickMarkRadius * 2.0f);
 
     //// Color Declarations
     NSColor* fillColor = nil;

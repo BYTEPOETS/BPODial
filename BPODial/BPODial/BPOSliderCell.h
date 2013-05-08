@@ -12,5 +12,6 @@
 
 @property (nonatomic, assign) CGFloat scaleInDegrees;
 @property (nonatomic, assign) BOOL concave;
+@property (nonatomic, assign) CGFloat tickMarkRadius;
 
 @end
