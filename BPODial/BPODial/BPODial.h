@@ -10,4 +10,19 @@
 
 @interface BPODial : NSSlider
 
+// The available aperture in degrees. Acceptable range is 25° to 180°
+@property (nonatomic, assign) CGFloat apertureInDegrees;
+
+// defines how big the tick marks are
+@property (nonatomic, assign) CGFloat tickMarkRadius;
+
+// defines the visual style of the knob
+@property (nonatomic, assign) BOOL concave;
+
+// label at the minimum tick mark
+@property (nonatomic, strong) NSString *minLabel;
+
+// label at the maximum tick mark
+@property (nonatomic, strong) NSString *maxLabel;
+
 @end

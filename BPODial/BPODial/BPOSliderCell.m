@@ -32,7 +32,7 @@
     self = [super init];
     if (self)
     {
-        [self _setup];
+        [self _setupDefaultValues];
     }
     return self;
 }
@@ -43,18 +43,20 @@
     self = [super initWithCoder:coder];
     if (self)
     {
-        [self _setup];
+        [self _setupDefaultValues];
     }
     return self;
 }
 
 
-- (void)_setup
+- (void)_setupDefaultValues
 {
     self.apertureInDegrees = 116.0f;
     self.concave = NO;
     self.tickMarkRadius = 3.0f;
-    self.numberOfTickMarks = 5;
+    self.numberOfTickMarks = 9;
+    self.minLabel = @"min";
+    self.maxLabel = @"max";
 }
 
 
@@ -207,14 +209,16 @@
         
         [self _drawTickMarkAtPoint:tickMarkPoint filled:filled];
         
-        if (count == 0)
+        if (count == 0
+            && self.minLabel.length > 0)
         {
-            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:@"min"];
+            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:self.minLabel];
         }
         
-        if (count == self.numberOfTickMarks - 1)
+        if (count == self.numberOfTickMarks - 1
+            && self.maxLabel.length)
         {
-            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:@"max"];
+            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:self.maxLabel];
         }
     }
 }
@@ -312,7 +316,7 @@
     
     
     CGSize size = [text sizeWithAttributes:fontAttributes];
-    CGPoint drawPoint = CGPointMake(point.x - size.width / 2.0f, point.y - size.height - 10.0f);
+    CGPoint drawPoint = CGPointMake(point.x - size.width / 2.0f, point.y - size.height - self.tickMarkRadius - 4.0f);
     [text drawAtPoint:drawPoint withAttributes:fontAttributes];
     [NSGraphicsContext restoreGraphicsState];
 }

@@ -19,4 +19,10 @@
 // defines the visual style of the knob
 @property (nonatomic, assign) BOOL concave;
 
+// label at the minimum tick mark
+@property (nonatomic, strong) NSString *minLabel;
+
+// label at the maximum tick mark
+@property (nonatomic, strong) NSString *maxLabel;
+
 @end

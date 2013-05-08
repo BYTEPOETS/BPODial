@@ -62,4 +62,66 @@
     self.cell = cell;
 }
 
+
+#pragma mark - Additional configuration properties 
+
+- (void)setTickMarkRadius:(CGFloat)tickMarkRadius
+{
+    [self.cell setTickMarkRadius:tickMarkRadius];
+}
+
+
+- (CGFloat)tickMarkRadius
+{
+    return [self.cell tickMarkRadius];
+}
+
+
+- (void)setConcave:(BOOL)concave
+{
+    [self.cell setConcave:concave];
+}
+
+
+- (BOOL)concave
+{
+    return [self.cell concave];
+}
+
+
+- (void)setApertureInDegrees:(CGFloat)apertureInDegrees
+{
+    [self.cell setApertureInDegrees:apertureInDegrees];
+}
+
+
+- (CGFloat)apertureInDegrees
+{
+    return [self.cell apertureInDegrees];
+}
+
+
+- (void)setMinLabel:(NSString *)minLabel
+{
+    [self.cell setMinLabel:minLabel];
+}
+
+
+- (NSString *)minLabel
+{
+    return [self.cell minLabel];
+}
+
+
+- (void)setMaxLabel:(NSString *)maxLabel
+{
+    [self.cell setMaxLabel:maxLabel];
+}
+
+
+- (NSString *)maxLabel
+{
+    return [self.cell maxLabel];
+}
+
 @end
