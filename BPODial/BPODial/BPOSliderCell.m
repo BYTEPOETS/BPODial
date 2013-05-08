@@ -15,7 +15,7 @@
 #define INDICATOR_BASE_WIDTH    20.0f
 #define INDICATOR_HEIGHT        10.0f
 #define KNOB_BASE_RADIUS        50.0f
-#define TICK_MARK_DISTANCE      KNOB_BASE_RADIUS + 20.0f
+#define TICK_MARK_DISTANCE      KNOB_BASE_RADIUS + 25.0f
 #define TICK_MARK_RADIUS        3.0f
 
 @interface BPOSliderCell ()
@@ -114,13 +114,78 @@
 {
     [NSGraphicsContext saveGraphicsState];
     
-    // TODO: draw inset background
-    [[NSColor lightGrayColor] setFill];
-    NSRectFill(aRect);
-    
+    [self _drawBackground];
     [self _drawTickMarksInRect:aRect];
     
     [NSGraphicsContext restoreGraphicsState];
+}
+
+
+- (void)_drawBackground
+{
+    NSRect rect = NSMakeRect(0.0f, 0.0f, CELL_SIZE, CELL_SIZE);
+
+    
+    //// General Declarations
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    
+    //// Color Declarations
+    NSColor* fillColor = [NSColor colorWithCalibratedRed: 0.802 green: 0.802 blue: 0.802 alpha: 1];
+    NSColor* strokeColor = [NSColor colorWithCalibratedRed: 0.84 green: 0.84 blue: 0.84 alpha: 1];
+    NSColor* shadowColor2 = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0.295];
+    NSColor* shadowColor3 = [NSColor colorWithCalibratedRed: 0 green: 0 blue: 0 alpha: 0.3];
+    NSColor* color3 = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0.295];
+    
+    //// Gradient Declarations
+    NSGradient* gradient = [[NSGradient alloc] initWithStartingColor: strokeColor endingColor: fillColor];
+    
+    //// Shadow Declarations
+    NSShadow* outerShadow = [[NSShadow alloc] init];
+    [outerShadow setShadowColor: shadowColor2];
+    [outerShadow setShadowOffset: NSMakeSize(1.1, -1.1)];
+    [outerShadow setShadowBlurRadius: 1];
+    NSShadow* innerShadow = [[NSShadow alloc] init];
+    [innerShadow setShadowColor: shadowColor3];
+    [innerShadow setShadowOffset: NSMakeSize(0.1, -1.1)];
+    [innerShadow setShadowBlurRadius: 3];
+    
+    //// Oval Drawing
+    NSBezierPath* ovalPath = [NSBezierPath bezierPathWithOvalInRect:rect];
+    [NSGraphicsContext saveGraphicsState];
+    [outerShadow set];
+    CGContextBeginTransparencyLayer(context, NULL);
+    [gradient drawInBezierPath: ovalPath angle: -90];
+    CGContextEndTransparencyLayer(context);
+    
+    ////// Oval Inner Shadow
+    NSRect ovalBorderRect = NSInsetRect([ovalPath bounds], -innerShadow.shadowBlurRadius, -innerShadow.shadowBlurRadius);
+    ovalBorderRect = NSOffsetRect(ovalBorderRect, -innerShadow.shadowOffset.width, -innerShadow.shadowOffset.height);
+    ovalBorderRect = NSInsetRect(NSUnionRect(ovalBorderRect, [ovalPath bounds]), -1, -1);
+    
+    NSBezierPath* ovalNegativePath = [NSBezierPath bezierPathWithRect: ovalBorderRect];
+    [ovalNegativePath appendBezierPath: ovalPath];
+    [ovalNegativePath setWindingRule: NSEvenOddWindingRule];
+    
+    [NSGraphicsContext saveGraphicsState];
+    {
+        NSShadow* innerShadowWithOffset = [innerShadow copy];
+        CGFloat xOffset = innerShadowWithOffset.shadowOffset.width + round(ovalBorderRect.size.width);
+        CGFloat yOffset = innerShadowWithOffset.shadowOffset.height;
+        innerShadowWithOffset.shadowOffset = NSMakeSize(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset));
+        [innerShadowWithOffset set];
+        [[NSColor grayColor] setFill];
+        [ovalPath addClip];
+        NSAffineTransform* transform = [NSAffineTransform transform];
+        [transform translateXBy: -round(ovalBorderRect.size.width) yBy: 0];
+        [[transform transformBezierPath: ovalNegativePath] fill];
+    }
+    [NSGraphicsContext restoreGraphicsState];
+    
+    [NSGraphicsContext restoreGraphicsState];
+    
+    [color3 setStroke];
+    [ovalPath setLineWidth: 1];
+    [ovalPath stroke];
 }
 
 
@@ -132,7 +197,7 @@
     CGFloat tickMarkAngle = self.scaleInDegrees / (self.numberOfTickMarks - 1);
     
     NSRect circleRect = [self circleRectForKnobRect:[self knobRectFlipped:self.controlView.isFlipped]];
-    CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect));
+    CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect) + 5.0f);
     CGPoint edgePoint = CGPointMake(TICK_MARK_DISTANCE, 0.0f);
     
     for (NSInteger count = 0; count < self.numberOfTickMarks; count++)
