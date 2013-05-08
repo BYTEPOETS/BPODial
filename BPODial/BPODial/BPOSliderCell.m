@@ -55,6 +55,7 @@
 - (void)_setup
 {
     self.scaleInDegrees = 116.0f;
+    self.concave = YES;
     self.numberOfTickMarks = 9;
 }
 
@@ -285,22 +286,97 @@
 
 - (void)drawKnob:(NSRect)knobRect
 {
-    [NSGraphicsContext saveGraphicsState];
-    
-    [[NSColor redColor] setFill];
-    
     NSRect circleRect = [self circleRectForKnobRect:knobRect];
-    NSBezierPath *circlePath = [NSBezierPath bezierPathWithOvalInRect:circleRect];
-    NSBezierPath *indicatorPath = [self _indicatorPathForRect:circleRect];
-    [circlePath appendBezierPath:indicatorPath];
-    
     CGFloat degrees = self.scaleInDegrees / 2.0f - self.scaleInDegrees * [self _currentPercentage];
-    
     NSAffineTransform *rotation = [NSAffineTransform transformRotatingAroundPoint:NSMakePoint(NSMidX(circleRect), NSMidY(circleRect)) byDegrees:degrees];
-    NSBezierPath *drawPath = [rotation transformBezierPath:circlePath];
-    [drawPath fill];
+    NSAffineTransform *translation = [NSAffineTransform transform];
+    [translation translateXBy:circleRect.origin.x yBy:circleRect.origin.y];
+
     
+    //// General Declarations
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     
+    //// Color Declarations
+    NSColor* fillColor = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 1];
+    NSColor* strokeColor = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0.4];
+    NSColor* shadowColor2 = [NSColor colorWithCalibratedRed: 0 green: 0 blue: 0 alpha: 0.1];
+    NSColor* color = [NSColor colorWithCalibratedRed: 0.837 green: 0.837 blue: 0.837 alpha: 1];
+    NSColor* shadowColor4 = [NSColor colorWithCalibratedRed: 0 green: 0 blue: 0 alpha: 0.1];
+    NSColor* strokeColor2 = [NSColor colorWithCalibratedRed: 0.597 green: 0.597 blue: 0.597 alpha: 1];
+
+    //// Gradient Declarations
+    NSGradient* fill = [[NSGradient alloc] initWithStartingColor: color endingColor: fillColor];
+    NSGradient* strokeGradient = [[NSGradient alloc] initWithStartingColor: fillColor endingColor: strokeColor2];
+    
+    //// Shadow Declarations
+    NSShadow* innerShadow = [[NSShadow alloc] init];
+    [innerShadow setShadowColor: shadowColor2];
+    [innerShadow setShadowOffset: NSMakeSize(-2.1, 4.1)];
+    [innerShadow setShadowBlurRadius: 1];
+    NSShadow* dropShadow = [[NSShadow alloc] init];
+    [dropShadow setShadowColor: shadowColor4];
+    [dropShadow setShadowOffset: NSMakeSize(3.1, -3.1)];
+    [dropShadow setShadowBlurRadius: 19];
+
+    
+    //// Bezier Drawing
+    NSBezierPath* bezierPath = [self _knobPath];
+    bezierPath = [translation transformBezierPath:bezierPath];
+    bezierPath = [rotation transformBezierPath:bezierPath];
+    
+    [NSGraphicsContext saveGraphicsState];
+    [dropShadow set];
+    
+    CGFloat angle = 121.0f;
+    if (self.concave)
+    {
+        angle = -76.0f;
+    }
+    
+    CGContextBeginTransparencyLayer(context, NULL);
+    [fill drawInBezierPath: bezierPath angle: angle];
+    CGContextEndTransparencyLayer(context);
+
+    
+
+    [fill drawInBezierPath: bezierPath angle: -angle];
+    
+    ////// Bezier Inner Shadow
+    NSRect bezierBorderRect = NSInsetRect([bezierPath bounds], -innerShadow.shadowBlurRadius, -innerShadow.shadowBlurRadius);
+    bezierBorderRect = NSOffsetRect(bezierBorderRect, -innerShadow.shadowOffset.width, -innerShadow.shadowOffset.height);
+    bezierBorderRect = NSInsetRect(NSUnionRect(bezierBorderRect, [bezierPath bounds]), -1, -1);
+    bezierBorderRect.size.height += 20;
+    
+    NSBezierPath* bezierNegativePath = [NSBezierPath bezierPathWithRect: bezierBorderRect];
+    [bezierNegativePath appendBezierPath: bezierPath];
+    [bezierNegativePath setWindingRule: NSEvenOddWindingRule];
+    
+    [NSGraphicsContext saveGraphicsState];
+    {
+        NSShadow* innerShadowWithOffset = [innerShadow copy];
+        CGFloat xOffset = innerShadowWithOffset.shadowOffset.width + round(bezierBorderRect.size.width);
+        CGFloat yOffset = innerShadowWithOffset.shadowOffset.height;
+        innerShadowWithOffset.shadowOffset = NSMakeSize(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset));
+        [innerShadowWithOffset set];
+        [[NSColor grayColor] setFill];
+        [bezierPath addClip];
+        NSAffineTransform* transform = [NSAffineTransform transform];
+        [transform translateXBy: -round(bezierBorderRect.size.width) yBy: 0];
+        [[transform transformBezierPath: bezierNegativePath] fill];
+    }
+    [NSGraphicsContext restoreGraphicsState];
+    
+    [strokeColor setStroke];
+    [bezierPath setLineWidth: 1];
+    [bezierPath stroke];
+
+    
+    NSBezierPath *strokeBezierPath = [self _strokePath];
+    strokeBezierPath = [translation transformBezierPath:strokeBezierPath];
+    strokeBezierPath = [rotation transformBezierPath:strokeBezierPath];
+    [strokeGradient drawInBezierPath: strokeBezierPath angle: 66];
+    
+        
     // --- DEBUG DRAWING ---
     //    [[NSColor greenColor] setFill];
     //    NSFrameRect(knobRect);
@@ -318,30 +394,67 @@
     //    NSString *valuesStr = [NSString stringWithFormat:@"%0.2f%%\n%0.2f°", tPercentage * 100, RADIANS_TO_DEGREES(tAngle)];
     //    [valuesStr drawAtPoint:NSMakePoint(NSMidX(knobRect), NSMidY(knobRect)) withAttributes:nil];
     // ---
-    
-    [NSGraphicsContext restoreGraphicsState];
 }
 
 
-- (NSBezierPath *)_indicatorPathForRect:(NSRect)circleRect
+- (NSBezierPath *)_knobPath
 {
-    CGFloat indicatorCenterX = circleRect.origin.x + circleRect.size.width / 2.0f;
-    
-    NSBezierPath *indicatorPath = [NSBezierPath bezierPath];
-    indicatorPath.lineJoinStyle = NSBevelLineJoinStyle;
-    [indicatorPath moveToPoint:NSMakePoint(indicatorCenterX - INDICATOR_BASE_WIDTH / 2.0f, NSMaxY(circleRect) - 2.0f)];
-    [indicatorPath lineToPoint:NSMakePoint(indicatorCenterX + INDICATOR_BASE_WIDTH / 2.0f, NSMaxY(circleRect) - 2.0f)];
-    
-    NSPoint arcCenter = NSMakePoint(indicatorCenterX, NSMaxY(circleRect) + INDICATOR_HEIGHT - 2.0f);
-    [indicatorPath appendBezierPathWithArcWithCenter:arcCenter
-                                              radius:3.0f
-                                          startAngle:45.0f
-                                            endAngle:135.0f
-                                           clockwise:NO];
-    
-    [indicatorPath closePath];
-    
-    return indicatorPath;
+    NSBezierPath* bezierPath = [NSBezierPath bezierPath];
+    [bezierPath moveToPoint: NSMakePoint(85.36, 14.64)];
+    [bezierPath curveToPoint: NSMakePoint(85.36, 85.36) controlPoint1: NSMakePoint(104.88, 34.17) controlPoint2: NSMakePoint(104.88, 65.83)];
+    [bezierPath curveToPoint: NSMakePoint(55.79, 99.67) controlPoint1: NSMakePoint(77.07, 93.64) controlPoint2: NSMakePoint(66.6, 98.41)];
+    [bezierPath curveToPoint: NSMakePoint(50.5, 107) controlPoint1: NSMakePoint(55.79, 99.67) controlPoint2: NSMakePoint(52.14, 107.03)];
+    [bezierPath curveToPoint: NSMakePoint(45.29, 99.78) controlPoint1: NSMakePoint(48.86, 106.97) controlPoint2: NSMakePoint(45.29, 99.78)];
+    [bezierPath curveToPoint: NSMakePoint(14.64, 85.36) controlPoint1: NSMakePoint(34.1, 98.73) controlPoint2: NSMakePoint(23.21, 93.92)];
+    [bezierPath curveToPoint: NSMakePoint(14.64, 14.64) controlPoint1: NSMakePoint(-4.88, 65.83) controlPoint2: NSMakePoint(-4.88, 34.17)];
+    [bezierPath curveToPoint: NSMakePoint(85.36, 14.64) controlPoint1: NSMakePoint(34.17, -4.88) controlPoint2: NSMakePoint(65.83, -4.88)];
+    [bezierPath closePath];
+    [bezierPath setLineCapStyle: NSRoundLineCapStyle];
+    [bezierPath setLineJoinStyle: NSBevelLineJoinStyle];
+    return bezierPath;
+}
+
+
+- (NSBezierPath *)_strokePath
+{
+    //// Stroke Bezier Drawing
+    NSBezierPath* strokeBezierPath = [NSBezierPath bezierPath];
+    [strokeBezierPath moveToPoint: NSMakePoint(86.77, 13.21)];
+    [strokeBezierPath curveToPoint: NSMakePoint(86.77, 86.66) controlPoint1: NSMakePoint(107.08, 33.49) controlPoint2: NSMakePoint(107.08, 66.38)];
+    [strokeBezierPath curveToPoint: NSMakePoint(56.02, 101.52) controlPoint1: NSMakePoint(78.37, 95.05) controlPoint2: NSMakePoint(67.58, 100.19)];
+    [strokeBezierPath lineToPoint: NSMakePoint(56.82, 100.97)];
+    [strokeBezierPath curveToPoint: NSMakePoint(56.55, 101.5) controlPoint1: NSMakePoint(56.77, 101.07) controlPoint2: NSMakePoint(56.68, 101.25)];
+    [strokeBezierPath curveToPoint: NSMakePoint(55.83, 102.83) controlPoint1: NSMakePoint(56.33, 101.92) controlPoint2: NSMakePoint(56.09, 102.37)];
+    [strokeBezierPath curveToPoint: NSMakePoint(53.65, 106.41) controlPoint1: NSMakePoint(55.09, 104.18) controlPoint2: NSMakePoint(54.35, 105.41)];
+    [strokeBezierPath curveToPoint: NSMakePoint(50.49, 109) controlPoint1: NSMakePoint(52.45, 108.12) controlPoint2: NSMakePoint(51.54, 109.02)];
+    [strokeBezierPath curveToPoint: NSMakePoint(47.43, 106.47) controlPoint1: NSMakePoint(49.48, 108.98) controlPoint2: NSMakePoint(48.58, 108.1)];
+    [strokeBezierPath curveToPoint: NSMakePoint(45.26, 102.93) controlPoint1: NSMakePoint(46.73, 105.48) controlPoint2: NSMakePoint(46, 104.26)];
+    [strokeBezierPath curveToPoint: NSMakePoint(44.55, 101.61) controlPoint1: NSMakePoint(45.01, 102.47) controlPoint2: NSMakePoint(44.77, 102.02)];
+    [strokeBezierPath curveToPoint: NSMakePoint(44.28, 101.08) controlPoint1: NSMakePoint(44.43, 101.36) controlPoint2: NSMakePoint(44.33, 101.18)];
+    [strokeBezierPath lineToPoint: NSMakePoint(45.1, 101.64)];
+    [strokeBezierPath curveToPoint: NSMakePoint(13.23, 86.66) controlPoint1: NSMakePoint(33.14, 100.52) controlPoint2: NSMakePoint(21.91, 95.33)];
+    [strokeBezierPath curveToPoint: NSMakePoint(13.23, 13.21) controlPoint1: NSMakePoint(-7.08, 66.38) controlPoint2: NSMakePoint(-7.08, 33.49)];
+    [strokeBezierPath curveToPoint: NSMakePoint(86.77, 13.21) controlPoint1: NSMakePoint(33.54, -7.07) controlPoint2: NSMakePoint(66.46, -7.07)];
+    [strokeBezierPath closePath];
+    [strokeBezierPath moveToPoint: NSMakePoint(85.33, 14.65)];
+    [strokeBezierPath curveToPoint: NSMakePoint(14.67, 14.65) controlPoint1: NSMakePoint(65.82, -4.83) controlPoint2: NSMakePoint(34.18, -4.83)];
+    [strokeBezierPath curveToPoint: NSMakePoint(14.67, 85.22) controlPoint1: NSMakePoint(-4.84, 34.14) controlPoint2: NSMakePoint(-4.84, 65.73)];
+    [strokeBezierPath curveToPoint: NSMakePoint(45.29, 99.61) controlPoint1: NSMakePoint(23.01, 93.55) controlPoint2: NSMakePoint(33.8, 98.53)];
+    [strokeBezierPath lineToPoint: NSMakePoint(46.11, 100.17)];
+    [strokeBezierPath curveToPoint: NSMakePoint(46.36, 100.67) controlPoint1: NSMakePoint(46.15, 100.27) controlPoint2: NSMakePoint(46.24, 100.44)];
+    [strokeBezierPath curveToPoint: NSMakePoint(47.05, 101.95) controlPoint1: NSMakePoint(46.57, 101.07) controlPoint2: NSMakePoint(46.8, 101.5)];
+    [strokeBezierPath curveToPoint: NSMakePoint(49.09, 105.29) controlPoint1: NSMakePoint(47.75, 103.22) controlPoint2: NSMakePoint(48.45, 104.38)];
+    [strokeBezierPath curveToPoint: NSMakePoint(50.53, 106.96) controlPoint1: NSMakePoint(49.83, 106.33) controlPoint2: NSMakePoint(50.47, 106.96)];
+    [strokeBezierPath curveToPoint: NSMakePoint(51.98, 105.24) controlPoint1: NSMakePoint(50.57, 106.96) controlPoint2: NSMakePoint(51.23, 106.32)];
+    [strokeBezierPath curveToPoint: NSMakePoint(54.05, 101.85) controlPoint1: NSMakePoint(52.63, 104.31) controlPoint2: NSMakePoint(53.34, 103.14)];
+    [strokeBezierPath curveToPoint: NSMakePoint(54.74, 100.56) controlPoint1: NSMakePoint(54.3, 101.4) controlPoint2: NSMakePoint(54.53, 100.96)];
+    [strokeBezierPath curveToPoint: NSMakePoint(54.99, 100.06) controlPoint1: NSMakePoint(54.86, 100.32) controlPoint2: NSMakePoint(54.95, 100.15)];
+    [strokeBezierPath lineToPoint: NSMakePoint(55.79, 99.5)];
+    [strokeBezierPath curveToPoint: NSMakePoint(85.33, 85.22) controlPoint1: NSMakePoint(66.89, 98.21) controlPoint2: NSMakePoint(77.26, 93.28)];
+    [strokeBezierPath curveToPoint: NSMakePoint(85.33, 14.65) controlPoint1: NSMakePoint(104.84, 65.73) controlPoint2: NSMakePoint(104.84, 34.14)];
+    [strokeBezierPath closePath];
+
+    return strokeBezierPath;
 }
 
 

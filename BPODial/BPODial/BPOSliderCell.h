@@ -11,5 +11,6 @@
 @interface BPOSliderCell : NSSliderCell
 
 @property (nonatomic, assign) CGFloat scaleInDegrees;
+@property (nonatomic, assign) BOOL concave;
 
 @end
