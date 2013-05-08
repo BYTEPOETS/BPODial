@@ -208,6 +208,16 @@
         BOOL filled = percentage <= [self _currentPercentage];
         
         [self _drawTickMarkAtPoint:tickMarkPoint filled:filled];
+        
+        if (count == 0)
+        {
+            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:@"min"];
+        }
+        
+        if (count == self.numberOfTickMarks - 1)
+        {
+            [self _drawLabelForTickMarkAtPoint:tickMarkPoint withtText:@"max"];
+        }
     }
 }
 
@@ -271,6 +281,41 @@
     }
     [NSGraphicsContext restoreGraphicsState];
     
+    [NSGraphicsContext restoreGraphicsState];
+}
+
+
+- (void)_drawLabelForTickMarkAtPoint:(CGPoint)point withtText:(NSString *)text
+{
+    //// Color Declarations
+    NSColor* strokeColor = [NSColor colorWithCalibratedRed: 0.302 green: 0.302 blue: 0.302 alpha: 1];
+    NSColor* shadowColor2 = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 0.808];
+    
+    //// Shadow Declarations
+    NSShadow* shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor: shadowColor2];
+    [shadow setShadowOffset: NSMakeSize(0.1, -1.1)];
+    [shadow setShadowBlurRadius: 0];
+    
+    //// Abstracted Attributes
+    NSFont* font = [NSFont fontWithName: @"HelveticaNeue-Medium" size: 11];
+    
+    
+    //// Drawing
+    [NSGraphicsContext saveGraphicsState];
+    [shadow set];
+    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment: NSCenterTextAlignment];
+    
+    NSDictionary* fontAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       font, NSFontAttributeName,
+                                       strokeColor, NSForegroundColorAttributeName,
+                                       style, NSParagraphStyleAttributeName, nil];
+    
+    
+    CGSize size = [text sizeWithAttributes:fontAttributes];
+    CGPoint drawPoint = CGPointMake(point.x - size.width / 2.0f, point.y - size.height - 10.0f);
+    [text drawAtPoint:drawPoint withAttributes:fontAttributes];
     [NSGraphicsContext restoreGraphicsState];
 }
 
