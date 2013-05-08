@@ -51,16 +51,32 @@
 
 - (void)_setup
 {
-    self.scaleInDegrees = 116.0f;
+    self.apertureInDegrees = 116.0f;
     self.concave = NO;
     self.tickMarkRadius = 3.0f;
-    self.numberOfTickMarks = 9;
+    self.numberOfTickMarks = 5;
 }
 
 
 - (NSSliderType)sliderType
 {
     return NSCircularSlider;
+}
+
+
+- (void)setScaleInDegrees:(CGFloat)apertureInDegrees
+{
+    if (apertureInDegrees > 180.0f)
+    {
+        apertureInDegrees = 180.0f;
+    }
+    
+    if (apertureInDegrees < 25.0f)
+    {
+        apertureInDegrees = 25.0f;
+    }
+    
+    _apertureInDegrees = apertureInDegrees;
 }
 
 
@@ -96,18 +112,6 @@
 }
 
 #pragma mark - Drawing
-
-//- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-//{
-//    [super drawWithFrame:cellFrame inView:controlView];
-//}
-
-
-//- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-//{
-//    [super drawInteriorWithFrame:cellFrame inView:controlView];
-//}
-
 
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped
 {
@@ -189,9 +193,9 @@
 - (void)_drawTickMarksInRect:(NSRect)rect
 {
     // calculate angle for tickmarks
-    CGFloat maxAngle = 90.0f + self.scaleInDegrees / 2.0f;
-    CGFloat minAngle = 90.0f - self.scaleInDegrees / 2.0f;
-    CGFloat tickMarkAngle = self.scaleInDegrees / (self.numberOfTickMarks - 1);
+    CGFloat maxAngle = 90.0f + self.apertureInDegrees / 2.0f;
+    CGFloat minAngle = 90.0f - self.apertureInDegrees / 2.0f;
+    CGFloat tickMarkAngle = self.apertureInDegrees / (self.numberOfTickMarks - 1);
     
     NSRect circleRect = [self circleRectForKnobRect:[self knobRectFlipped:self.controlView.isFlipped]];
     CGPoint center = CGPointMake(NSMidX(circleRect), NSMidY(circleRect) + 5.0f);
@@ -330,7 +334,7 @@
 - (void)drawKnob:(NSRect)knobRect
 {
     NSRect circleRect = [self circleRectForKnobRect:knobRect];
-    CGFloat degrees = self.scaleInDegrees / 2.0f - self.scaleInDegrees * [self _currentPercentage];
+    CGFloat degrees = self.apertureInDegrees / 2.0f - self.apertureInDegrees * [self _currentPercentage];
     NSAffineTransform *rotation = [NSAffineTransform transformRotatingAroundPoint:NSMakePoint(NSMidX(circleRect), NSMidY(circleRect)) byDegrees:degrees];
     NSAffineTransform *translation = [NSAffineTransform transform];
     [translation translateXBy:circleRect.origin.x yBy:circleRect.origin.y];
@@ -514,20 +518,21 @@
     [self.controlView setNeedsDisplay:YES];
     
     // --- DEBUG INFO
-    tLastPointOnCircle = currentPointOnCircle;
-    tLastPoint = currentPoint;
-    tAngle = [self angleOfPoint:currentPointOnCircle];
-    tPercentage = percentage;
+//    tLastPointOnCircle = currentPointOnCircle;
+//    tLastPoint = currentPoint;
+//    tAngle = [self angleOfPoint:currentPointOnCircle];
+//    tPercentage = percentage;
     // ---
     
     return YES;
 }
 
+
 #pragma mark - Geometry helpers
 
 - (CGFloat)percentageOfAngle:(CGFloat)angle
 {
-    return 1.0f - angle / self.scaleInDegrees;
+    return 1.0f - angle / self.apertureInDegrees;
 }
 
 
@@ -535,10 +540,8 @@
 {
     CGFloat angle = RADIANS_TO_DEGREES([self angleOfPoint:point]);
     
-    // valid range: 32° - 148°
-    
-    CGFloat minAngle = 90.0f - self.scaleInDegrees / 2.0f;
-    CGFloat maxAngle = 90.0f + self.scaleInDegrees / 2.0f;
+    CGFloat minAngle = 90.0f - self.apertureInDegrees / 2.0f;
+    CGFloat maxAngle = 90.0f + self.apertureInDegrees / 2.0f;
     
     CGFloat resultAngle = 0.0f;
     

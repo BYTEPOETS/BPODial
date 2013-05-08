@@ -10,8 +10,13 @@
 
 @interface BPOSliderCell : NSSliderCell
 
-@property (nonatomic, assign) CGFloat scaleInDegrees;
-@property (nonatomic, assign) BOOL concave;
+// The available aperture in degrees. Acceptable range is 25° to 180°
+@property (nonatomic, assign) CGFloat apertureInDegrees;
+
+// defines how big the tick marks are
 @property (nonatomic, assign) CGFloat tickMarkRadius;
+
+// defines the visual style of the knob
+@property (nonatomic, assign) BOOL concave;
 
 @end
