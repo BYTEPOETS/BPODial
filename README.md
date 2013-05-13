@@ -5,7 +5,8 @@ BPODial is a NSSlider control designed with Paintcode.
 
 Demo
 ---
-![iPhone Example](screenshot1.png)
+![Default](screenshot1.png)
+![Concave with more ticks](screenshot2.png)
 
 Usage
 ---
