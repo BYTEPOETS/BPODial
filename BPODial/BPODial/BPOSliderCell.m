@@ -10,8 +10,6 @@
 #import "NSAffineTransform+Rotation.h"
 #import "VectorMath.h"
 
-
-#define CELL_SIZE               168.0f
 #define KNOB_BASE_RADIUS        50.0f
 #define TICK_MARK_DISTANCE      KNOB_BASE_RADIUS + 25.0f
 
@@ -57,6 +55,7 @@
     self.numberOfTickMarks = 9;
     self.minLabel = @"min";
     self.maxLabel = @"max";
+    self.cellSize = 168.0f;
 }
 
 
@@ -86,7 +85,7 @@
 
 - (CGSize)cellSizeForBounds:(NSRect)aRect
 {
-    return CGSizeMake(CELL_SIZE, CELL_SIZE);
+    return CGSizeMake(self.cellSize, self.cellSize);
 }
 
 
@@ -98,7 +97,7 @@
 
 - (NSRect)knobRectFlipped:(BOOL)flipped
 {
-    return CGRectMake((CELL_SIZE - 114.0f) / 2.0, (CELL_SIZE - 114.0f) / 2.0 - 10.0f, 114.0f, 114.0f);
+    return CGRectMake((self.cellSize - 114.0f) / 2.0, (self.cellSize - 114.0f) / 2.0 - 10.0f, 114.0f, 114.0f);
 }
 
 
@@ -124,7 +123,7 @@
 
 - (void)_drawBackground
 {
-    NSRect rect = NSMakeRect(0.0f, 0.0f, CELL_SIZE, CELL_SIZE);
+    NSRect rect = NSMakeRect(0.0f, 0.0f, self.cellSize, self.cellSize);
     //// General Declarations
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     

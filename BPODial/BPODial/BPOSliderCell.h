@@ -16,6 +16,9 @@
 // defines how big the tick marks are
 @property (nonatomic, assign) CGFloat tickMarkRadius;
 
+// defines the cell size
+@property (nonatomic, assign) CGFloat cellSize;
+
 // defines the visual style of the knob
 @property (nonatomic, assign) BOOL concave;
 

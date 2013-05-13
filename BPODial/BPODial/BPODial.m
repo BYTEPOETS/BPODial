@@ -9,6 +9,8 @@
 #import "BPODial.h"
 #import "BPOSliderCell.h"
 
+#define CELL_SIZE 168.0f
+
 @implementation BPODial
 
 + (Class)cellClass
@@ -59,6 +61,7 @@
     cell.minValue = self.minValue;
     cell.maxValue = self.maxValue;
     
+    [self setFrame:CGRectMake(self.frame.origin.x - (CELL_SIZE / 2) + 16, self.frame.origin.y - (CELL_SIZE / 2) + 16, CELL_SIZE, CELL_SIZE)];
     self.cell = cell;
 }
 
