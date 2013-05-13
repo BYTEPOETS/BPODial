@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "BPODial"
   s.version      = "0.0.1"
-  s.summary      = "A beautiful Dial / Volume Style Knob Control for Mac OS X .. replacment for NSSlider Control"
+  s.summary      = "A beautiful Dial / Volume Style Knob Control for Mac OS X (replacment for NSSlider Control)."
   s.homepage     = "http://EXAMPLE/BPODial"
   s.license      = 'MIT'
   s.author       = { "Martin Höller" => "martin.hoeller@bytepoets.com", "BYTEPOETS" => "office@bytepoets.com" }
