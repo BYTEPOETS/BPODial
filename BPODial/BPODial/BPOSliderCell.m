@@ -55,7 +55,7 @@
     self.numberOfTickMarks = 9;
     self.minLabel = @"min";
     self.maxLabel = @"max";
-    self.cellSize = 168.0f;
+    self.cellSizeSet = 168.0f;
 }
 
 
@@ -85,7 +85,7 @@
 
 - (CGSize)cellSizeForBounds:(NSRect)aRect
 {
-    return CGSizeMake(self.cellSize, self.cellSize);
+    return CGSizeMake(self.cellSizeSet, self.cellSizeSet);
 }
 
 
@@ -97,7 +97,7 @@
 
 - (NSRect)knobRectFlipped:(BOOL)flipped
 {
-    return CGRectMake((self.cellSize - 114.0f) / 2.0, (self.cellSize - 114.0f) / 2.0 - 10.0f, 114.0f, 114.0f);
+    return CGRectMake((self.cellSizeSet - 114.0f) / 2.0, (self.cellSizeSet - 114.0f) / 2.0 - 10.0f, 114.0f, 114.0f);
 }
 
 
@@ -123,7 +123,7 @@
 
 - (void)_drawBackground
 {
-    NSRect rect = NSMakeRect(0.0f, 0.0f, self.cellSize, self.cellSize);
+    NSRect rect = NSMakeRect(0.0f, 0.0f, self.cellSizeSet, self.cellSizeSet);
     //// General Declarations
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     
