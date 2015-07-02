@@ -17,7 +17,7 @@
 @property (nonatomic, assign) CGFloat tickMarkRadius;
 
 // defines the cell size
-@property (nonatomic, assign) CGFloat cellSize;
+@property (nonatomic, assign) CGFloat sliderCellSize;
 
 // defines the visual style of the knob
 @property (nonatomic, assign) BOOL concave;
